@@ -125,7 +125,7 @@ O SVG da Lumi está inline em vários sítios. Para mudar a mascote:
 - Edita os blocos `<svg>` com classe `lumi-mini` e `welcome-lumi-svg`
 - Mantém a estrutura de `viewBox="0 0 120 120"`
 
----
+--
 
 ## Próximos passos sugeridos
 
