@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+  <title>ObaniA Kids ✨</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<div id="app">
+
+  <!-- ─────────────────────────────────────────────
+       MASCOTE GLOBAL (Lumi) – aparece em todos os ecrãs
+  ───────────────────────────────────────────────── -->
+  <div id="lumi-wrapper" class="hidden">
+    <div id="lumi" aria-label="Lumi, a tua assistente">
+      <!-- SVG Lumi (estrela com olhos grandes) -->
+      <svg id="lumi-svg" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+        <!-- corpo estrela -->
+        <polygon points="60,8 72,42 108,42 80,63 90,97 60,76 30,97 40,63 12,42 48,42"
+          fill="#FFD93D" stroke="#FFAE00" stroke-width="2" />
+        <!-- brilho interior -->
+        <polygon points="60,22 68,44 92,44 73,57 80,79 60,66 40,79 47,57 28,44 52,44"
+          fill="#FFE875" opacity="0.5" />
+        <!-- olho esquerdo -->
+        <circle cx="48" cy="52" r="8" fill="white" />
+        <circle cx="48" cy="52" r="5" fill="#1a1a4e" class="lumi-pupil-left" />
+        <circle cx="50" cy="50" r="2" fill="white" />
+        <!-- olho direito -->
+        <circle cx="72" cy="52" r="8" fill="white" />
+        <circle cx="72" cy="52" r="5" fill="#1a1a4e" class="lumi-pupil-right" />
+        <circle cx="74" cy="50" r="2" fill="white" />
+        <!-- boca sorridente -->
+        <path d="M50,63 Q60,72 70,63" stroke="#FFAE00" stroke-width="2.5" fill="none" stroke-linecap="round" />
+        <!-- bochechas -->
+        <circle cx="40" cy="62" r="5" fill="#FFB3C1" opacity="0.6" />
+        <circle cx="80" cy="62" r="5" fill="#FFB3C1" opacity="0.6" />
+      </svg>
+      <div id="lumi-glow"></div>
+    </div>
+  </div>
+
+  <!-- ─────────────────────────────────────────────
+       ECRÃ 1 — BOAS-VINDAS
+  ───────────────────────────────────────────────── -->
+  <div id="screen-welcome" class="screen active">
+    <div class="welcome-bg">
+      <div class="star s1">★</div>
+      <div class="star s2">✦</div>
+      <div class="star s3">★</div>
+      <div class="star s4">✦</div>
+      <div class="star s5">★</div>
+    </div>
+
+    <div class="welcome-logo">
+      <span class="logo-obania">ObaniA</span>
+      <span class="logo-kids">Kids</span>
+    </div>
+
+    <div class="welcome-lumi-stage">
+      <svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg" class="welcome-lumi-svg">
+        <polygon points="60,8 72,42 108,42 80,63 90,97 60,76 30,97 40,63 12,42 48,42"
+          fill="#FFD93D" stroke="#FFAE00" stroke-width="2" />
+        <polygon points="60,22 68,44 92,44 73,57 80,79 60,66 40,79 47,57 28,44 52,44"
+          fill="#FFE875" opacity="0.5" />
+        <circle cx="48" cy="52" r="8" fill="white" />
+        <circle cx="48" cy="52" r="5" fill="#1a1a4e" />
+        <circle cx="50" cy="50" r="2" fill="white" />
+        <circle cx="72" cy="52" r="8" fill="white" />
+        <circle cx="72" cy="52" r="5" fill="#1a1a4e" />
+        <circle cx="74" cy="50" r="2" fill="white" />
+        <path d="M50,63 Q60,72 70,63" stroke="#FFAE00" stroke-width="2.5" fill="none" stroke-linecap="round" />
+        <circle cx="40" cy="62" r="5" fill="#FFB3C1" opacity="0.6" />
+        <circle cx="80" cy="62" r="5" fill="#FFB3C1" opacity="0.6" />
+      </svg>
+      <div class="welcome-glow-ring"></div>
+    </div>
+
+    <div class="bubble bubble-welcome" id="bubble-welcome">
+      <span id="bubble-welcome-text"></span><span class="cursor">|</span>
+    </div>
+
+    <button class="btn-primary btn-big" id="btn-start" style="opacity:0">
+      Vamos começar! 🚀
+    </button>
+  </div>
+
+  <!-- ─────────────────────────────────────────────
+       ECRÃ 2 — O QUE VAMOS CRIAR?
+  ───────────────────────────────────────────────── -->
+  <div id="screen-choose" class="screen">
+
+    <div class="screen-header">
+      <div class="lumi-mini">
+        <svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+          <polygon points="60,8 72,42 108,42 80,63 90,97 60,76 30,97 40,63 12,42 48,42" fill="#FFD93D" stroke="#FFAE00" stroke-width="2" />
+          <circle cx="48" cy="52" r="7" fill="white" /><circle cx="48" cy="52" r="4" fill="#1a1a4e" />
+          <circle cx="72" cy="52" r="7" fill="white" /><circle cx="72" cy="52" r="4" fill="#1a1a4e" />
+          <path d="M50,63 Q60,72 70,63" stroke="#FFAE00" stroke-width="2.5" fill="none" stroke-linecap="round" />
+        </svg>
+      </div>
+      <div class="bubble bubble-small">O que vamos criar hoje? ✨</div>
+    </div>
+
+    <div class="create-grid">
+
+      <div class="create-card" data-type="personagem" tabindex="0">
+        <div class="card-emoji">🧙‍♀️</div>
+        <div class="card-label">Criar<br/><strong>Personagem</strong></div>
+        <div class="card-desc">Inventa um herói, animal, criatura ou robô!</div>
+        <div class="card-glow"></div>
+      </div>
+
+      <div class="create-card card-coming" data-type="fundo" tabindex="0">
+        <div class="card-badge">Em breve</div>
+        <div class="card-emoji">🏰</div>
+        <div class="card-label">Criar<br/><strong>Fundo</strong></div>
+        <div class="card-desc">Cria o cenário da tua aventura!</div>
+        <div class="card-glow"></div>
+      </div>
+
+      <div class="create-card card-coming" data-type="historia" tabindex="0">
+        <div class="card-badge">Em breve</div>
+        <div class="card-emoji">📖</div>
+        <div class="card-label">Criar<br/><strong>História</strong></div>
+        <div class="card-desc">Escreve uma aventura incrível!</div>
+        <div class="card-glow"></div>
+      </div>
+
+      <div class="create-card card-coming" data-type="desenho" tabindex="0">
+        <div class="card-badge">Em breve</div>
+        <div class="card-emoji">🎨</div>
+        <div class="card-label">Transformar<br/><strong>Desenho</strong></div>
+        <div class="card-desc">Dá vida ao teu desenho!</div>
+        <div class="card-glow"></div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ─────────────────────────────────────────────
+       ECRÃ 3 — PERSONAGEM: TEM IDEIA?
+  ───────────────────────────────────────────────── -->
+  <div id="screen-char-1" class="screen">
+    <div class="screen-header">
+      <div class="lumi-mini bounce">
+        <svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+          <polygon points="60,8 72,42 108,42 80,63 90,97 60,76 30,97 40,63 12,42 48,42" fill="#FFD93D" stroke="#FFAE00" stroke-width="2" />
+          <circle cx="48" cy="52" r="7" fill="white" /><circle cx="48" cy="52" r="4" fill="#1a1a4e" />
+          <circle cx="72" cy="52" r="7" fill="white" /><circle cx="72" cy="52" r="4" fill="#1a1a4e" />
+          <path d="M50,63 Q60,72 70,63" stroke="#FFAE00" stroke-width="2.5" fill="none" stroke-linecap="round" />
+        </svg>
+      </div>
+      <div class="bubble bubble-small">Boa escolha! Já tens uma ideia na cabeça? 💭</div>
+    </div>
+
+    <div class="step-indicator">
+      <div class="step active"></div>
+      <div class="step"></div>
+      <div class="step"></div>
+      <div class="step"></div>
+      <div class="step"></div>
+    </div>
+
+    <div class="choice-group">
+      <div class="choice-card big-choice" data-screen="char-2" data-value="propria">
+        <div class="choice-icon">💡</div>
+        <div class="choice-title">Já tenho uma ideia!</div>
+        <div class="choice-sub">Quero criar o que imaginei</div>
+      </div>
+      <div class="choice-card big-choice" data-screen="char-2b" data-value="ajuda">
+        <div class="choice-icon">🎲</div>
+        <div class="choice-title">Ajuda-me a inventar!</div>
+        <div class="choice-sub">A Lumi dá-me ideias</div>
+      </div>
+    </div>
+
+    <!-- Caixa de texto opcional para ideia própria (aparece condicionalmente) -->
+    <div id="idea-input-box" class="idea-box hidden">
+      <label class="idea-label">Conta-me a tua ideia! 🗣️</label>
+      <textarea id="idea-text" class="idea-textarea" placeholder="Exemplo: quero um dragão pequenino que tem medo do fogo..." maxlength="200" rows="3"></textarea>
+      <div class="char-count"><span id="idea-count">0</span>/200</div>
+      <button class="btn-primary" id="btn-idea-next">Vamos lá! ✨</button>
+    </div>
+
+    <button class="btn-back" onclick="goBack()">← Voltar</button>
+  </div>
+
+  <!-- ─────────────────────────────────────────────
+       ECRÃ 3b — SUGESTÕES DA LUMI (ajuda a inventar)
+  ───────────────────────────────────────────────── -->
+  <div id="screen-char-2b" class="screen">
+    <div class="screen-header">
+      <div class="lumi-mini bounce">
+        <svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+          <polygon points="60,8 72,42 108,42 80,63 90,97 60,76 30,97 40,63 12,42 48,42" fill="#FFD93D" stroke="#FFAE00" stroke-width="2" />
+          <circle cx="48" cy="52" r="7" fill="white" /><circle cx="48" cy="52" r="4" fill="#1a1a4e" />
+          <circle cx="72" cy="52" r="7" fill="white" /><circle cx="72" cy="52" r="4" fill="#1a1a4e" />
+          <path d="M50,63 Q60,72 70,63" stroke="#FFAE00" stroke-width="2.5" fill="none" stroke-linecap="round" />
+        </svg>
+      </div>
+      <div class="bubble bubble-small">Escolhe uma ideia que gostes! Depois melhoramos juntos 🌟</div>
+    </div>
+
+    <div class="step-indicator">
+      <div class="step active"></div>
+      <div class="step"></div>
+      <div class="step"></div>
+      <div class="step"></div>
+      <div class="step"></div>
+    </div>
+
+    <div class="suggestion-grid" id="suggestion-grid">
+      <!-- preenchido dinamicamente pelo JS -->
+    </div>
+
+    <button class="btn-secondary" id="btn-new-suggestions">🎲 Mais ideias!</button>
+    <button class="btn-back" onclick="goBack()">← Voltar</button>
+  </div>
+
+  <!-- ─────────────────────────────────────────────
+       ECRÃ 4 — QUE TIPO DE PERSONAGEM?
+  ───────────────────────────────────────────────── -->
+  <div id="screen-char-2" class="screen">
+    <div class="screen-header">
+      <div class="lumi-mini">
+        <svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+          <polygon points="60,8 72,42 108,42 80,63 90,97 60,76 30,97 40,63 12,42 48,42" fill="#FFD93D" stroke="#FFAE00" stroke-width="2" />
+          <circle cx="48" cy="52" r="7" fill="white" /><circle cx="48" cy="52" r="4" fill="#1a1a4e" />
+          <circle cx="72" cy="52" r="7" fill="white" /><circle cx="72" cy="52" r="4" fill="#1a1a4e" />
+          <path d="M50,63 Q60,72 70,63" stroke="#FFAE00" stroke-width="2.5" fill="none" stroke-linecap="round" />
+        </svg>
+      </div>
+      <div class="bubble bubble-small">Que tipo de personagem é? 🔍</div>
+    </div>
+
+    <div class="step-indicator">
+      <div class="step done"></div>
+      <div class="step active"></div>
+      <div class="step"></div>
+      <div class="step"></div>
+      <div class="step"></div>
+    </div>
+
+    <div class="choice-group four-grid">
+      <div class="choice-card" data-key="tipo" data-value="humano" data-screen="char-3">
+        <div class="choice-icon">👦</div>
+        <div class="choice-title">Humano</div>
+      </div>
+      <div class="choice-card" data-key="tipo" data-value="animal" data-screen="char-3">
+        <div class="choice-icon">🦊</div>
+        <div class="choice-title">Animal</div>
+      </div>
+      <div class="choice-card" data-key="tipo" data-value="magico" data-screen="char-3">
+        <div class="choice-icon">🧚</div>
+        <div class="choice-title">Criatura Mágica</div>
+      </div>
+      <div class="choice-card" data-key="tipo" data-value="robo" data-screen="char-3">
+        <div class="choice-icon">🤖</div>
+        <div class="choice-title">Robô</div>
+      </div>
+    </div>
+
+    <!-- Dica da Lumi: conceito criativo -->
+    <div class="lumi-tip">
+      <span class="tip-icon">💡</span>
+      <span class="tip-text">Sabes que um animal que se comporta como pessoa se chama <strong>antropomórfico</strong>? É um truque muito usado nas histórias! 🦊</span>
+    </div>
+
+    <button class="btn-back" onclick="goBack()">← Voltar</button>
+  </div>
+
+  <!-- ─────────────────────────────────────────────
+       ECRÃ 5 — PERSONALIDADE
+  ───────────────────────────────────────────────── -->
+  <div id="screen-char-3" class="screen">
+    <div class="screen-header">
+      <div class="lumi-mini">
+        <svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+          <polygon points="60,8 72,42 108,42 80,63 90,97 60,76 30,97 40,63 12,42 48,42" fill="#FFD93D" stroke="#FFAE00" stroke-width="2" />
+          <circle cx="48" cy="52" r="7" fill="white" /><circle cx="48" cy="52" r="4" fill="#1a1a4e" />
+          <circle cx="72" cy="52" r="7" fill="white" /><circle cx="72" cy="52" r="4" fill="#1a1a4e" />
+          <path d="M50,63 Q60,72 70,63" stroke="#FFAE00" stroke-width="2.5" fill="none" stroke-linecap="round" />
+        </svg>
+      </div>
+      <div class="bubble bubble-small">Como é a personalidade da tua personagem? 😄</div>
+    </div>
+
+    <div class="step-indicator">
+      <div class="step done"></div>
+      <div class="step done"></div>
+      <div class="step active"></div>
+      <div class="step"></div>
+      <div class="step"></div>
+    </div>
+
+    <div class="mood-grid">
+      <div class="mood-card" data-key="personalidade" data-value="corajoso" data-screen="char-4">
+        <div class="mood-bg mood-brave"></div>
+        <div class="mood-emoji">⚔️</div>
+        <div class="mood-name">Corajoso</div>
+      </div>
+      <div class="mood-card" data-key="personalidade" data-value="engraçado" data-screen="char-4">
+        <div class="mood-bg mood-funny"></div>
+        <div class="mood-emoji">😂</div>
+        <div class="mood-name">Engraçado</div>
+      </div>
+      <div class="mood-card" data-key="personalidade" data-value="misterioso" data-screen="char-4">
+        <div class="mood-bg mood-mystery"></div>
+        <div class="mood-emoji">🌙</div>
+        <div class="mood-name">Misterioso</div>
+      </div>
+      <div class="mood-card" data-key="personalidade" data-value="simpático" data-screen="char-4">
+        <div class="mood-bg mood-kind"></div>
+        <div class="mood-emoji">🌸</div>
+        <div class="mood-name">Simpático</div>
+      </div>
+      <div class="mood-card" data-key="personalidade" data-value="inteligente" data-screen="char-4">
+        <div class="mood-bg mood-smart"></div>
+        <div class="mood-emoji">🔬</div>
+        <div class="mood-name">Inteligente</div>
+      </div>
+      <div class="mood-card" data-key="personalidade" data-value="selvagem" data-screen="char-4">
+        <div class="mood-bg mood-wild"></div>
+        <div class="mood-emoji">🌊</div>
+        <div class="mood-name">Selvagem</div>
+      </div>
+    </div>
+
+    <button class="btn-back" onclick="goBack()">← Voltar</button>
+  </div>
+
+  <!-- ─────────────────────────────────────────────
+       ECRÃ 6 — ESTILO VISUAL
+  ───────────────────────────────────────────────── -->
+  <div id="screen-char-4" class="screen">
+    <div class="screen-header">
+      <div class="lumi-mini">
+        <svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+          <polygon points="60,8 72,42 108,42 80,63 90,97 60,76 30,97 40,63 12,42 48,42" fill="#FFD93D" stroke="#FFAE00" stroke-width="2" />
+          <circle cx="48" cy="52" r="7" fill="white" /><circle cx="48" cy="52" r="4" fill="#1a1a4e" />
+          <circle cx="72" cy="52" r="7" fill="white" /><circle cx="72" cy="52" r="4" fill="#1a1a4e" />
+          <path d="M50,63 Q60,72 70,63" stroke="#FFAE00" stroke-width="2.5" fill="none" stroke-linecap="round" />
+        </svg>
+      </div>
+      <div class="bubble bubble-small">Em que estilo queres a imagem? 🎨</div>
+    </div>
+
+    <div class="step-indicator">
+      <div class="step done"></div>
+      <div class="step done"></div>
+      <div class="step done"></div>
+      <div class="step active"></div>
+      <div class="step"></div>
+    </div>
+
+    <div class="style-grid">
+      <div class="style-card" data-key="estilo" data-value="anime" data-screen="char-5">
+        <div class="style-preview style-anime">
+          <span>アニメ</span>
+        </div>
+        <div class="style-name">Anime</div>
+        <div class="style-desc">Olhos grandes e expressivos</div>
+      </div>
+      <div class="style-card" data-key="estilo" data-value="cartoon" data-screen="char-5">
+        <div class="style-preview style-cartoon">
+          <span>💥</span>
+        </div>
+        <div class="style-name">Cartoon</div>
+        <div class="style-desc">Banda desenhada colorida</div>
+      </div>
+      <div class="style-card" data-key="estilo" data-value="fantasia" data-screen="char-5">
+        <div class="style-preview style-fantasy">
+          <span>🌟</span>
+        </div>
+        <div class="style-name">Fantasia</div>
+        <div class="style-desc">Mágico e épico</div>
+      </div>
+      <div class="style-card" data-key="estilo" data-value="3d" data-screen="char-5">
+        <div class="style-preview style-3d">
+          <span>◈</span>
+        </div>
+        <div class="style-name">3D</div>
+        <div class="style-desc">Como um filme animado</div>
+      </div>
+    </div>
+
+    <button class="btn-back" onclick="goBack()">← Voltar</button>
+  </div>
+
+  <!-- ─────────────────────────────────────────────
+       ECRÃ 7 — DETALHE ESPECIAL + RESUMO
+  ───────────────────────────────────────────────── -->
+  <div id="screen-char-5" class="screen">
+    <div class="screen-header">
+      <div class="lumi-mini bounce">
+        <svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+          <polygon points="60,8 72,42 108,42 80,63 90,97 60,76 30,97 40,63 12,42 48,42" fill="#FFD93D" stroke="#FFAE00" stroke-width="2" />
+          <circle cx="48" cy="52" r="7" fill="white" /><circle cx="48" cy="52" r="4" fill="#1a1a4e" />
+          <circle cx="72" cy="52" r="7" fill="white" /><circle cx="72" cy="52" r="4" fill="#1a1a4e" />
+          <path d="M50,63 Q60,72 70,63" stroke="#FFAE00" stroke-width="2.5" fill="none" stroke-linecap="round" />
+        </svg>
+      </div>
+      <div class="bubble bubble-small">Quase pronto! Queres adicionar um detalhe especial? ✨</div>
+    </div>
+
+    <div class="step-indicator">
+      <div class="step done"></div>
+      <div class="step done"></div>
+      <div class="step done"></div>
+      <div class="step done"></div>
+      <div class="step active"></div>
+    </div>
+
+    <!-- Detalhe extra (opcional) -->
+    <div class="extra-detail-section">
+      <div class="extra-chips" id="extra-chips">
+        <button class="chip" data-value="">Sem extra</button>
+        <button class="chip" data-value="capa">🦸 Capa</button>
+        <button class="chip" data-value="chapeu magico">🎩 Chapéu Mágico</button>
+        <button class="chip" data-value="espada brilhante">⚔️ Espada</button>
+        <button class="chip" data-value="asas de fada">🧚 Asas</button>
+        <button class="chip" data-value="armadura">🛡️ Armadura</button>
+        <button class="chip" data-value="mochila de explorador">🎒 Mochila</button>
+        <button class="chip" data-value="olhos que brilham">✨ Olhos Brilhantes</button>
+        <button class="chip" data-value="cauda mágica">🌀 Cauda Mágica</button>
+      </div>
+    </div>
+
+    <!-- Resumo do personagem -->
+    <div class="summary-box" id="summary-box">
+      <div class="summary-title">✨ A tua personagem vai ser...</div>
+      <div class="summary-items" id="summary-items">
+        <!-- preenchido pelo JS -->
+      </div>
+    </div>
+
+    <button class="btn-primary btn-generate" id="btn-generate">
+      🎨 Criar a minha personagem!
+    </button>
+
+    <button class="btn-back" onclick="goBack()">← Voltar</button>
+  </div>
+
+  <!-- ─────────────────────────────────────────────
+       ECRÃ 8 — A GERAR...
+  ───────────────────────────────────────────────── -->
+  <div id="screen-generating" class="screen">
+    <div class="generating-stage">
+      <div class="magic-circle">
+        <div class="magic-ring r1"></div>
+        <div class="magic-ring r2"></div>
+        <div class="magic-ring r3"></div>
+        <div class="magic-lumi">
+          <svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg" class="gen-lumi-svg">
+            <polygon points="60,8 72,42 108,42 80,63 90,97 60,76 30,97 40,63 12,42 48,42" fill="#FFD93D" stroke="#FFAE00" stroke-width="2" />
+            <circle cx="48" cy="52" r="7" fill="white" /><circle cx="48" cy="52" r="4" fill="#1a1a4e" />
+            <circle cx="72" cy="52" r="7" fill="white" /><circle cx="72" cy="52" r="4" fill="#1a1a4e" />
+            <path d="M50,63 Q60,72 70,63" stroke="#FFAE00" stroke-width="2.5" fill="none" stroke-linecap="round" />
+          </svg>
+        </div>
+        <div class="magic-sparks">
+          <span>✨</span><span>⭐</span><span>💫</span><span>🌟</span><span>✦</span>
+        </div>
+      </div>
+
+      <div class="generating-text" id="generating-text">A Lumi está a criar a tua personagem...</div>
+      <div class="generating-steps" id="generating-steps">
+        <div class="gen-step active" id="gstep-1">🎨 A misturar cores...</div>
+        <div class="gen-step" id="gstep-2">✏️ A desenhar os detalhes...</div>
+        <div class="gen-step" id="gstep-3">✨ A adicionar magia...</div>
+      </div>
+
+      <!-- PONTO DE INTEGRAÇÃO FUTURA -->
+      <!-- Esta zona conectará ao backend/ComfyUI -->
+      <div id="api-status" class="api-status hidden">
+        <span id="api-status-text"></span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─────────────────────────────────────────────
+       ECRÃ 9 — RESULTADO
+  ───────────────────────────────────────────────── -->
+  <div id="screen-result" class="screen">
+
+    <div class="result-header">
+      <div class="lumi-mini celebrate">
+        <svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+          <polygon points="60,8 72,42 108,42 80,63 90,97 60,76 30,97 40,63 12,42 48,42" fill="#FFD93D" stroke="#FFAE00" stroke-width="2" />
+          <circle cx="48" cy="52" r="7" fill="white" /><circle cx="48" cy="52" r="4" fill="#1a1a4e" />
+          <circle cx="72" cy="52" r="7" fill="white" /><circle cx="72" cy="52" r="4" fill="#1a1a4e" />
+          <!-- olhos estrelinhas na celebração -->
+          <path d="M50,63 Q60,74 70,63" stroke="#FFAE00" stroke-width="3" fill="none" stroke-linecap="round" />
+        </svg>
+      </div>
+      <div class="bubble bubble-small">Uau! Ficou incrível! 🎉</div>
+    </div>
+
+    <div class="result-image-wrapper">
+      <div class="result-image-frame">
+        <img id="result-image" src="" alt="A tua personagem" class="result-image" />
+        <!-- Placeholder enquanto não há imagem real -->
+        <div class="result-placeholder" id="result-placeholder">
+          <div class="placeholder-char" id="placeholder-char">🧙‍♀️</div>
+          <div class="placeholder-label" id="placeholder-label">A tua personagem</div>
+        </div>
+        <div class="result-sparkles">
+          <span>✨</span><span>⭐</span><span>💫</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="result-name" id="result-name">A tua personagem</div>
+    <div class="result-tags" id="result-tags">
+      <!-- preenchido pelo JS -->
+    </div>
+
+    <!-- Prompt gerada (escondida do utilizador, visível em modo de depuração) -->
+    <details class="prompt-debug" id="prompt-debug">
+      <summary>🔧 Ver prompt gerada (para curiosos)</summary>
+      <pre id="generated-prompt"></pre>
+    </details>
+
+    <div class="result-actions">
+      <button class="btn-primary" id="btn-save">💾 Guardar</button>
+      <button class="btn-secondary" id="btn-retry">🎲 Tentar diferente</button>
+      <button class="btn-secondary" id="btn-new">✨ Criar outra</button>
+    </div>
+
+    <!-- Dica pedagógica final -->
+    <div class="lumi-tip result-tip">
+      <span class="tip-icon">🌟</span>
+      <span class="tip-text" id="result-tip-text">Partilha a tua personagem com um amigo e inventem uma história juntos!</span>
+    </div>
+  </div>
+
+</div><!-- fim #app -->
+
+<script src="mock-api.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
