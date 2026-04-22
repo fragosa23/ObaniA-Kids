@@ -146,12 +146,14 @@ function showResult(result) {
     placeholderEl.textContent = result.placeholderEmoji || emojiMap[State.character.tipo] || '🌟';
   }
 
-  // Se houver imagem real
+  // Se houver imagem real (já carregada pelo generateImage)
   if (result.imageUrl) {
     const img = document.getElementById('result-image');
     const placeholder = document.getElementById('result-placeholder');
-    img.src = result.imageUrl;
-    img.style.display = 'block';
+    if (img) {
+      img.src = result.imageUrl;
+      img.style.display = 'block';
+    }
     if (placeholder) placeholder.style.display = 'none';
   }
 
@@ -183,41 +185,66 @@ function showResult(result) {
 async function startGeneration() {
   goTo('screen-generating');
 
+  // Mensagens a rodar enquanto espera (pode demorar 30-60s)
+  const loopMessages = [
+    '🎨 A misturar as cores mágicas...',
+    '✏️ A desenhar os contornos...',
+    '✨ A adicionar detalhes especiais...',
+    '🌟 A polir a magia...',
+    '💫 Quase pronto...',
+    '🎨 A afinar os últimos toques...',
+    '✨ A Lumi está a trabalhar muito...',
+    '🌈 A cor está a ficar incrível...',
+    '💫 Só mais um momento...',
+  ];
+
   const steps = ['gstep-1', 'gstep-2', 'gstep-3'];
+  let msgIndex = 0;
   let stepIndex = 0;
+  let done = false;
 
-  function advanceStep() {
-    if (stepIndex > 0) {
-      document.getElementById(steps[stepIndex - 1])?.classList.replace('active', 'done');
-    }
-    if (stepIndex < steps.length) {
-      document.getElementById(steps[stepIndex])?.classList.add('active');
-      stepIndex++;
-    }
-  }
+  // Atualiza texto a cada 3 segundos em loop
+  const txtEl = document.getElementById('generating-text');
+  const msgTimer = setInterval(() => {
+    if (done) return;
+    if (txtEl) txtEl.textContent = loopMessages[msgIndex % loopMessages.length];
+    msgIndex++;
 
-  advanceStep();
-  const stepTimer = setInterval(advanceStep, 1200);
+    // Avança / reinicia os steps visuais
+    steps.forEach(id => document.getElementById(id)?.classList.remove('active', 'done'));
+    document.getElementById(steps[stepIndex % steps.length])?.classList.add('active');
+    stepIndex++;
+  }, 2500);
+
+  // Mostra o primeiro texto imediatamente
+  if (txtEl) txtEl.textContent = loopMessages[0];
+  document.getElementById('gstep-1')?.classList.add('active');
 
   try {
     const result = await ObaniAAPI.generateImage(
       State.character,
       (msg, pct) => {
-        const txt = document.getElementById('generating-text');
-        if (txt) txt.textContent = msg;
+        if (pct === 100 && txtEl) txtEl.textContent = '✨ Imagem pronta!';
       }
     );
 
-    clearInterval(stepTimer);
+    done = true;
+    clearInterval(msgTimer);
 
-    // Pequena pausa dramática ✨
-    await new Promise(r => setTimeout(r, 600));
+    if (txtEl) txtEl.textContent = '✨ Imagem pronta!';
+    steps.forEach(id => {
+      const el = document.getElementById(id);
+      el?.classList.remove('active');
+      el?.classList.add('done');
+    });
+
+    await new Promise(r => setTimeout(r, 700));
     showResult(result);
 
   } catch (err) {
-    clearInterval(stepTimer);
+    done = true;
+    clearInterval(msgTimer);
     console.error('[ObaniA Kids] Erro na geração:', err);
-    // Fallback gracioso
     showResult({ success: false, placeholderEmoji: '🌟', isMock: true });
   }
 }
@@ -371,5 +398,27 @@ function init() {
   }, 600);
 }
 
+// ── Seta de scroll ──────────────────────────────────────────
+function initScrollArrow() {
+  const arrow = document.getElementById('scroll-arrow');
+  if (!arrow) return;
+
+  function updateArrow() {
+    const screen = document.querySelector('.screen.active');
+    if (!screen) return;
+    const canScroll = screen.scrollHeight > screen.clientHeight + 10;
+    const atBottom  = screen.scrollTop + screen.clientHeight >= screen.scrollHeight - 20;
+    arrow.classList.toggle('hidden', !canScroll || atBottom);
+  }
+
+  arrow.addEventListener('click', () => {
+    const screen = document.querySelector('.screen.active');
+    if (screen) screen.scrollBy({ top: 200, behavior: 'smooth' });
+  });
+
+  document.addEventListener('scroll', updateArrow, true);
+  setInterval(updateArrow, 500);
+}
+
 // Aguarda DOM e fontes
-document.addEventListener('DOMContentLoaded', init);
+document.addEventListener('DOMContentLoaded', () => { init(); initScrollArrow(); });

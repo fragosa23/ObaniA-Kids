@@ -18,7 +18,7 @@ const ObaniAAPI = {
   BACKEND_URL: null, // ex: 'http://192.168.1.100:7860'
 
   /** Modo de operação */
-  mode: 'mock', // 'mock' | 'comfyui' | 'remote'
+  mode: 'pollinations', // 'mock' | 'pollinations' | 'comfyui' | 'remote'
 
   /**
    * Sugestões de personagens aleatórias
@@ -142,10 +142,40 @@ const ObaniAAPI = {
       }
     }
 
+    // ── MODO POLLINATIONS ────────────────────────────────────
+    if (this.mode === 'pollinations') {
+      const seed = Math.floor(Math.random() * 99999);
+      const proxyUrl = `/generate?prompt=${encodeURIComponent(promptData.positive)}&seed=${seed}`;
+
+      console.log('[ObaniA] A gerar imagem via proxy...');
+      onProgress?.('A enviar a ideia para a Lumi...', 10);
+
+      const controller = new AbortController();
+      const timeout = setTimeout(() => controller.abort(), 90000);
+
+      try {
+        const response = await fetch(proxyUrl, { signal: controller.signal });
+        clearTimeout(timeout);
+
+        if (!response.ok) throw new Error(`HTTP ${response.status}`);
+
+        const blob = await response.blob();
+        const blobUrl = URL.createObjectURL(blob);
+
+        console.log('[ObaniA] Imagem gerada! Tamanho:', blob.size, 'bytes');
+        onProgress?.('Pronto! ✨', 100);
+        return { success: true, imageUrl: blobUrl, promptUsed: promptData };
+
+      } catch (err) {
+        clearTimeout(timeout);
+        console.error('[ObaniA] Erro:', err.message);
+        throw err;
+      }
+    }
+
     // ── MODO MOCK ────────────────────────────────────────────
     await this._simulateProgress(onProgress);
 
-    // Usa emoji como placeholder visual (substituir por imagem real)
     const emojiMap = {
       humano: '👦', animal: '🦊', magico: '🧚', robo: '🤖',
     };
@@ -153,7 +183,7 @@ const ObaniAAPI = {
 
     return {
       success: true,
-      imageUrl: null, // null = mostra placeholder
+      imageUrl: null,
       placeholderEmoji,
       promptUsed: promptData,
       isMock: true,
