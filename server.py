@@ -25,15 +25,20 @@ class Handler(http.server.SimpleHTTPRequestHandler):
         parsed = urllib.parse.urlparse(self.path)
         params = urllib.parse.parse_qs(parsed.query)
         prompt = params.get('prompt', [''])[0]
+        seed   = params.get('seed', [None])[0]
 
         if not prompt:
             self.send_response(400)
             self.end_headers()
             return
 
-        print(f'[HF] A gerar: {prompt[:80]}...')
+        print(f'[HF] A gerar (seed={seed}): {prompt[:80]}...')
 
-        payload = json.dumps({"inputs": prompt[:400]}).encode('utf-8')
+        body = {"inputs": prompt[:400]}
+        if seed is not None:
+            body["parameters"] = {"seed": int(seed)}
+
+        payload = json.dumps(body).encode('utf-8')
 
         try:
             req = urllib.request.Request(

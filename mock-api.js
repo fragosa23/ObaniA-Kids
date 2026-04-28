@@ -18,7 +18,7 @@ const ObaniAAPI = {
   BACKEND_URL: null, // ex: 'http://192.168.1.100:7860'
 
   /** Modo de operação */
-  mode: 'pollinations', // 'mock' | 'pollinations' | 'comfyui' | 'remote'
+  mode: 'pollinations', // 'mock' | 'pollinations' | 'hf' | 'comfyui' | 'remote'
 
   /**
    * Sugestões de personagens aleatórias
@@ -142,16 +142,16 @@ const ObaniAAPI = {
       }
     }
 
-    // ── MODO POLLINATIONS ────────────────────────────────────
+    // ── MODO POLLINATIONS (proxy local → Hugging Face FLUX) ─
     if (this.mode === 'pollinations') {
       const seed = Math.floor(Math.random() * 99999);
       const proxyUrl = `/generate?prompt=${encodeURIComponent(promptData.positive)}&seed=${seed}`;
 
-      console.log('[ObaniA] A gerar imagem via proxy...');
+      console.log('[ObaniA] A gerar imagem via proxy HF...');
       onProgress?.('A enviar a ideia para a Lumi...', 10);
 
       const controller = new AbortController();
-      const timeout = setTimeout(() => controller.abort(), 90000);
+      const timeout = setTimeout(() => controller.abort(), 120000);
 
       try {
         const response = await fetch(proxyUrl, { signal: controller.signal });

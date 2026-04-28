@@ -1,0 +1,12 @@
+# Variáveis de ambiente / segredos — nunca commit
+.env
+.env.local
+.env.*.local
+
+# Ficheiros do sistema
+.DS_Store
+Thumbs.db
+
+# Editor
+.vscode/
+*.swp
