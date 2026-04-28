@@ -1,0 +1,2 @@
+#!/bin/bash
+HF_TOKEN=COLOCA_AQUI_O_TEU_TOKEN_DO_HUGGING_FACE python3 server.py
